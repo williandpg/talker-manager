@@ -5,7 +5,7 @@ function emailValid(email) {
 
 function emailInput(req, res, next) {
   const { email } = req.body;
-  if (!email || email === null) {
+  if (!email) {
     return res.status(400).json({ message: 'O campo "email" é obrigatório' });
   }
   if (!emailValid(email)) {
