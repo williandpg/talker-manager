@@ -1,11 +1,11 @@
 function emailValid(email) {
-  const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.([a-zA-Z]{2,4})+$/;
+  const regex = /^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$/;
   return regex.test(email);
 }
 
 function emailInput(req, res, next) {
   const { email } = req.body;
-  if (!email || email === '') {
+  if (!email || email === null) {
     return res.status(400).json({ message: 'O campo "email" é obrigatório' });
   }
   if (!emailValid(email)) {
