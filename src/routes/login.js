@@ -1,6 +1,5 @@
 const login = require('express').Router();
-const { emailInput } = require('../middlewares/email');
-const { passwordInput } = require('../middlewares/password');
+const { emailInput, passwordInput } = require('../middlewares');
 const { generateToken } = require('../utils/utils');
 
 login.post('/login', emailInput, passwordInput, async (req, res) => {
