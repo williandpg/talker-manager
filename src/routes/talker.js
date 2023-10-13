@@ -1,7 +1,7 @@
 const talker = require('express').Router();
 const { read } = require('../utils/utils');
 
-talker.get('/talker', async (_req, res) => {
+talker.get('/talker', async (req, res) => {
   const data = await read();
   return res.status(200).json(data);
 });
