@@ -14,9 +14,9 @@ const generateToken = () => {
 };
 
 const write = async (talker) => {
-  const data = await read();
+  // const data = await read();
   const path = '../talker.json';
-  await fs.writeFile(join(__dirname, path), JSON.stringify([...data, talker]));
+  await fs.writeFile(join(__dirname, path), JSON.stringify(talker));
 };
 
 module.exports = {
