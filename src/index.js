@@ -22,11 +22,6 @@ app.get('/', (_request, response) => {
   response.status(HTTP_OK_STATUS).send();
 });
 
-app.post('/login', emailInput, passwordInput, (req, res) => {
-  const token = generateToken();
-  res.status(200).json({ token });
-});
-
 app.get('/talker', async (req, res) => {
   const data = await read();
   return res.status(200).json(data);
@@ -35,9 +30,14 @@ app.get('/talker', async (req, res) => {
 app.get('/talker/:id', async (req, res) => {
   const { id } = req.params;
   const data = await read();
-  const talkerFind = data.find((talk) => talk.id === Number(id));
+  const talkerFind = data.find((tlk) => tlk.id === Number(id));
   if (!talkerFind) return res.status(404).json({ message: 'Pessoa palestrante não encontrada' });
   return res.status(200).json(talkerFind);
+});
+
+app.post('/login', emailInput, passwordInput, (req, res) => {
+  const token = generateToken();
+  res.status(200).json({ token });
 });
 
 app.post('/talker', tokenInput, nameInput, ageInput, talkInput, rateInput, watchedAtInput,

@@ -3,12 +3,13 @@ const crypto = require('crypto');
 const { join } = require('path');
 
 const read = async () => {
-  const data = await fs.readFile('src/talker.json', 'utf-8');
+  const path = '../talker.json';
+  const data = await fs.readFile(join(__dirname, path), 'utf-8');
   return JSON.parse(data);
 };
 
 const generateToken = () => {
-  const token = () => crypto.randomBytes(8).toString('hex');
+  const token = crypto.randomBytes(8).toString('hex');
   return token();
 };
 
