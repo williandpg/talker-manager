@@ -39,7 +39,7 @@ app.post('/login', emailInput, passwordInput, (req, res) => {
   const { email, password } = req.body;
   if (email && password) {
     const token = generateToken();
-    res.status(200).json({ token });
+    return res.status(200).json({ token });
   }
 });
 
