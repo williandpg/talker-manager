@@ -36,8 +36,11 @@ app.get('/talker/:id', async (req, res) => {
 });
 
 app.post('/login', emailInput, passwordInput, (req, res) => {
-  const token = generateToken();
-  res.status(200).json({ token });
+  const { email, password } = req.body;
+  if (email && password) {
+    const token = generateToken();
+    res.status(200).json({ token });
+  }
 });
 
 app.post('/talker', tokenInput, nameInput, ageInput, talkInput, rateInput, watchedAtInput,
