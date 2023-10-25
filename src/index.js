@@ -35,6 +35,21 @@ app.get('/talker', async (req, res) => {
   }
 });
 
+app.get('/talker/search', tokenInput, async (req, res) => {
+  try {
+    const { q } = req.query;
+    const data = await read();
+    if (q === '' || q === undefined) return res.status(HTTP_OK_STATUS).json(data);
+    const talkerFind = data.filter((tlk) => tlk.name.includes(q));
+    if (!talkerFind) {
+      return res.status(HTTP_OK_STATUS).json([]);
+    }
+    res.status(HTTP_OK_STATUS).json(talkerFind);
+  } catch (error) {
+    console.error(`Erro ao ler o arquivo: ${error}`);
+  }
+});
+
 app.get('/talker/:id', async (req, res) => {
   try {
     const { id } = req.params;
