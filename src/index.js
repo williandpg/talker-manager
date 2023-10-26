@@ -9,6 +9,9 @@ const {
   talkInput,
   rateInput,
   watchedAtInput,
+  searchTerm,
+  rateNumber,
+  watchedDate,
 } = require('./middlewares/index');
 
 const app = express();
@@ -35,16 +38,22 @@ app.get('/talker', async (req, res) => {
   }
 });
 
-app.get('/talker/search', tokenInput, async (req, res) => {
+app.get('/talker/search', tokenInput, searchTerm, rateNumber, watchedDate, async (req, res) => {
   try {
-    const { q } = req.query;
-    const data = await read();
-    if (q === '' || q === undefined) return res.status(HTTP_OK_STATUS).json(data);
-    const talkerFind = data.filter((tlk) => tlk.name.includes(q));
-    if (!talkerFind) {
-      return res.status(HTTP_OK_STATUS).json([]);
+    const { q, rate, date } = req.query;
+    let filteredTalkers = await read();
+    if (q) {
+      filteredTalkers = filteredTalkers.filter((tlk) => 
+        tlk.name.toLowerCase().includes(q.toLowerCase()));
     }
-    res.status(HTTP_OK_STATUS).json(talkerFind);
+    if (rate !== undefined) {
+      const numericRate = parseInt(rate, 10);
+      filteredTalkers = filteredTalkers.filter((tlk) => tlk.talk.rate === numericRate);
+    }
+    if (date) {
+      filteredTalkers = filteredTalkers.filter((tlk) => tlk.talk.watchedAt === date);
+    }
+    res.status(HTTP_OK_STATUS).json(filteredTalkers);
   } catch (error) {
     console.error(`Erro ao ler o arquivo: ${error}`);
   }
