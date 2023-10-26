@@ -9,6 +9,7 @@ const watchedAtInput = require('./watchedAt');
 const searchTerm = require('./searchTerm');
 const rateNumber = require('./rateNumber');
 const watchedDate = require('./watchedDate');
+const talkerRate = require('./talkerRate');
 
 module.exports = {
   emailInput,
@@ -22,4 +23,5 @@ module.exports = {
   searchTerm,
   rateNumber,
   watchedDate,
+  talkerRate,
 };

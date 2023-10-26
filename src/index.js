@@ -12,6 +12,7 @@ const {
   searchTerm,
   rateNumber,
   watchedDate,
+  talkerRate,
 } = require('./middlewares/index');
 
 const app = express();
@@ -128,6 +129,26 @@ app.delete('/talker/:id', tokenInput, async (req, res) => {
     res.status(HTTP_NO_CONTENT_STATUS).json({ message: 'Pessoa palestrante deletada com sucesso' });
   } catch (error) {
     console.error(`Erro ao ler o arquivo: ${error}`);
+  }
+});
+
+app.patch('/talker/rate/:id', tokenInput, talkerRate, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { rate } = req.body;
+    const data = await read();
+    const talkerFind = data.find((tlk) => tlk.id === Number(id));
+    if (!talkerFind) {
+      return res.status(HTTP_NOT_FOUND_STATUS).json({ 
+        message: 'Pessoa palestrante não encontrada' });
+    }
+    const updatedTalker = { ...talkerFind, talk: { ...talkerFind.talk, rate: Number(rate) } };
+    const updatedData = data.map((tlk) => (tlk.id === Number(id) ? updatedTalker : tlk));
+    await write(updatedData);
+    res.status(HTTP_NO_CONTENT_STATUS).send();
+  } catch (error) {
+    console.error(`Erro ao ler/escrever o arquivo: ${error}`);
+    res.status(400).send({ message: 'Erro no servidor' });
   }
 });
 
